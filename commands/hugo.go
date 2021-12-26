@@ -191,6 +191,7 @@ func initializeFlags(cmd *cobra.Command, cfg config.Provider) {
 		"buildExpired",
 		"uglyURLs",
 		"canonifyURLs",
+		"omitHTMLExtensionFromURLs",
 		"enableRobotsTXT",
 		"enableGitInfo",
 		"pluralizeListTitles",
