@@ -233,23 +233,6 @@ func GetRelativePath(path, base string) (final string, err error) {
 	return name, nil
 }
 
-// PathPrep prepares the path using the uglify setting to create paths on
-// either the form /section/name/index.html or /section/name.html.
-func PathPrep(ugly bool, in string) string {
-	if ugly {
-		return Uglify(in)
-	}
-	return PrettifyPath(in)
-}
-
-// PrettifyPath is the same as PrettifyURLPath but for file paths.
-//     /section/name.html       becomes /section/name/index.html
-//     /section/name/           becomes /section/name/index.html
-//     /section/name/index.html becomes /section/name/index.html
-func PrettifyPath(in string) string {
-	return prettifyPath(in, fpb)
-}
-
 func prettifyPath(in string, b filepathPathBridge) string {
 	if filepath.Ext(in) == "" {
 		// /section/name/  -> /section/name/index.html
