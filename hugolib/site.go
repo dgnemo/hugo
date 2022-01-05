@@ -690,12 +690,6 @@ func (s *SiteInfo) AllRegularPages() page.Pages {
 	return s.s.AllRegularPages()
 }
 
-func (s *SiteInfo) Permalinks() map[string]string {
-	// Remove in 0.61
-	helpers.Deprecated(".Site.Permalinks", "", true)
-	return s.permalinks
-}
-
 func (s *SiteInfo) LastChange() time.Time {
 	return s.s.lastmod
 }
@@ -826,7 +820,7 @@ func (s siteRefLinker) logNotFound(ref, what string, p page.Page, position text.
 	} else if p == nil {
 		s.errorLogger.Printf("[%s] REF_NOT_FOUND: Ref %q: %s", s.s.Lang(), ref, what)
 	} else {
-		s.errorLogger.Printf("[%s] REF_NOT_FOUND: Ref %q from page %q: %s", s.s.Lang(), ref, p.Path(), what)
+		s.errorLogger.Printf("[%s] REF_NOT_FOUND: Ref %q from page %q: %s", s.s.Lang(), ref, p.Pathc(), what)
 	}
 }
 
@@ -1404,7 +1398,6 @@ func (s *Site) getMenusFromConfig() navigation.Menus {
 					}
 					s.Log.Errorf("unable to process menus in site config\n")
 					s.Log.Errorln(err)
-
 				}
 
 				for _, entry := range m {
