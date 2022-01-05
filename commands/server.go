@@ -109,7 +109,8 @@ of a second, you will be able to save and see your changes nearly instantly.`,
 }
 
 type filesOnlyFs struct {
-	fs http.FileSystem
+	fs                        http.FileSystem
+	omitHTMLExtensionFromURLs bool
 }
 
 type noDirFile struct {
@@ -117,6 +118,14 @@ type noDirFile struct {
 }
 
 func (fs filesOnlyFs) Open(name string) (http.File, error) {
+	// If OmitHTMLExtensionFromURLs is enabled, and a file with
+	// `name` + ".html" exists, return that.
+	// Otherwise fallback on the file with exact name match.
+	if fs.omitHTMLExtensionFromURLs {
+		if f, err := fs.fs.Open(name + ".html"); err == nil {
+			return noDirFile{f}, nil
+		}
+	}
 	f, err := fs.fs.Open(name)
 	if err != nil {
 		return nil, err
@@ -338,7 +347,7 @@ func (f *fileServer) createEndpoint(i int) (*http.ServeMux, string, string, erro
 	}
 
 	httpFs := afero.NewHttpFs(f.c.destinationFs)
-	fs := filesOnlyFs{httpFs.Dir(absPublishDir)}
+	fs := filesOnlyFs{httpFs.Dir(absPublishDir), f.c.hugo().Deps.Paths.OmitHTMLExtensionFromURLs}
 
 	if i == 0 && f.c.fastRenderMode {
 		jww.FEEDBACK.Println("Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender")
@@ -437,6 +446,10 @@ func (f *fileServer) createEndpoint(i int) (*http.ServeMux, string, string, erro
 					f.c.visitedURLs.Add(requestURI)
 
 				}
+			}
+
+			if f.c.hugoSites.Deps.Paths.OmitHTMLExtensionFromURLs && strings.HasSuffix(requestURI, ".html") {
+				jww.WARN.Printf("OmitHTMLExtensionFromURLs is enabled, but received request for: %v\n", requestURI)
 			}
 
 			h.ServeHTTP(w, r)
