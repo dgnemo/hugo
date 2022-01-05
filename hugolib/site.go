@@ -662,9 +662,10 @@ type SiteInfo struct {
 
 	BuildDrafts bool
 
-	canonifyURLs bool
-	relativeURLs bool
-	uglyURLs     func(p page.Page) bool
+	canonifyURLs              bool
+	relativeURLs              bool
+	omitHTMLExtensionFromURLs bool
+	uglyURLs                  func(p page.Page) bool
 
 	owner                          *HugoSites
 	s                              *Site
@@ -1347,6 +1348,7 @@ func (s *Site) initializeSiteInfo() error {
 		BuildDrafts:                    s.Cfg.GetBool("buildDrafts"),
 		canonifyURLs:                   s.Cfg.GetBool("canonifyURLs"),
 		relativeURLs:                   s.Cfg.GetBool("relativeURLs"),
+		omitHTMLExtensionFromURLs:      s.Cfg.GetBool("omitHTMLExtensionFromURLs"),
 		uglyURLs:                       uglyURLs,
 		permalinks:                     permalinks,
 		owner:                          s.h,

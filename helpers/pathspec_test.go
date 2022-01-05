@@ -31,6 +31,7 @@ func TestNewPathSpecFromConfig(t *testing.T) {
 	v.Set("removePathAccents", true)
 	v.Set("uglyURLs", true)
 	v.Set("canonifyURLs", true)
+	v.Set("omitHTMLExtensionFromURLs", true)
 	v.Set("paginatePath", "side")
 	v.Set("baseURL", "http://base.com")
 	v.Set("themesDir", "thethemes")
@@ -50,6 +51,7 @@ func TestNewPathSpecFromConfig(t *testing.T) {
 	c.Assert(p.DisablePathToLower, qt.Equals, true)
 	c.Assert(p.RemovePathAccents, qt.Equals, true)
 	c.Assert(p.UglyURLs, qt.Equals, true)
+	c.Assert(p.OmitHTMLExtensionFromURLs, qt.Equals, true)
 	c.Assert(p.Language.Lang, qt.Equals, "no")
 	c.Assert(p.PaginatePath, qt.Equals, "side")
 

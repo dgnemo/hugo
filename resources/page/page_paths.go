@@ -323,6 +323,9 @@ func CreateTargetPaths(d TargetPathDescriptor) (tp TargetPaths) {
 	if tp.Link == "" {
 		tp.Link = slash
 	}
+	if d.PathSpec.OmitHTMLExtensionFromURLs {
+		tp.Link = strings.TrimSuffix(tp.Link, ".html")
+	}
 
 	return
 }
