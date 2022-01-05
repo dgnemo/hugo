@@ -180,6 +180,7 @@ func TestCrossrefs(t *testing.T) {
 	}
 }
 
+// TODO(dgnemo) this should fail once the URL are diff
 func doTestCrossrefs(t *testing.T, relative, uglyURLs bool) {
 	c := qt.New(t)
 
@@ -429,6 +430,7 @@ func TestSectionNaming(t *testing.T) {
 	}
 }
 
+// TODO(dgnemo) canonify here is unused
 func doTestSectionNaming(t *testing.T, canonify, uglify, pluralize bool) {
 	c := qt.New(t)
 
@@ -893,6 +895,7 @@ func setupLinkingMockSite(t *testing.T) *Site {
 	return buildSingleSite(t, deps.DepsCfg{Fs: fs, Cfg: cfg}, BuildCfg{})
 }
 
+// TODO(dgnemo) probably our test need to be added here
 func TestRefLinking(t *testing.T) {
 	t.Parallel()
 	site := setupLinkingMockSite(t)
