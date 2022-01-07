@@ -65,25 +65,3 @@ resources/page/pagination_test.go:227:				cfg.Set("uglyURLs", uglyURLs)
 resources/page/pagination_test.go:228:				d.UglyURLs = uglyURLs
 resources/page/pagination_test.go:237:				if uglyURLs {
 resources/page/pagination_test.go:238:					c.Assert(got, qt.Equals, test.expectedUgly)
-
-
-docs/content/en/news/0.18-relnotes/index.md:16:* Fix `.URL` for taxonomy pages when `uglyURLs=true` {{<gh 2819 >}}
-docs/content/en/news/0.16-relnotes/index.md:123:* Fix `RSSLink` when uglyURLs are enabled {{<gh 175>}}
-docs/content/en/news/0.35-relnotes/index.md:51:* Deprecate CLI flags `canonifyURLs`, `pluralizeListTitles`, `preserveTaxonomyNames`, `uglyURLs` [f08ea02d](https://github.com/gohugoio/hugo/commit/f08ea02d24d42929676756950f3affaca7fd8c01) [@bep](https://github.com/bep) [#4347](https://github.com/gohugoio/hugo/issues/4347)
-docs/content/en/news/0.35-relnotes/index.md:90:* Fix `--uglyURLs` from comand line regression [016398ff](https://github.com/gohugoio/hugo/commit/016398ffe2e0a073453cf46a9d6bf72d693c11e5) [@bep](https://github.com/bep) [#4343](https://github.com/gohugoio/hugo/issues/4343)
-docs/content/en/news/0.14-relnotes/index.md:50:- Fix paginator with uglyurls
-docs/content/en/news/0.26-relnotes/index.md:20:Oh, and this release also fixes it so you should see no ugly long crashes no more when you step wrong in your templates ([794ea21e](https://github.com/gohugoio/hugo/commit/794ea21e9449b876c5514f1ce8fe61449bbe4980)).
-docs/content/en/news/0.20-relnotes/index.md:63:    *   Handle `uglyURLs` ambiguity in `Permalink` [#3102](//github.com/gohugoio/hugo/issues/3102)
-docs/content/en/news/0.20-relnotes/index.md:64:    *   Fix `Permalink` for language-roots wrong when `uglyURLs` is `true` [#3179](//github.com/gohugoio/hugo/issues/3179)
-docs/content/en/news/0.20-relnotes/index.md:66:    *   Fix for taxonomies URLs when `uglyUrls=true` [#1989](//github.com/gohugoio/hugo/issues/1989)
-docs/content/en/news/0.73.0-relnotes/index.md:56:* Fix aliases with uglyURLs 
-docs/content/en/news/0.33-relnotes/index.md:11:This is a full makeover of the layout selection logic with full custom `layout` and `type` support (many have asked for this). Also, Hugo now respects the `url` value in front matter for all page types, including sections. Also, you can now configure `uglyURLs` per section.
-docs/content/en/news/0.33-relnotes/index.md:60:* Support `uglyURLs` per section [57e10f17](https://github.com/gohugoio/hugo/commit/57e10f174e51cc5e1cf5f37eed30a0f3b153dd64) [@bep](https://github.com/bep) [#4256](https://github.com/gohugoio/hugo/issues/4256)
-docs/content/en/getting-started/configuration.md:430:### uglyURLs
-docs/content/en/content-management/organization/index.md:209:A complete URL can be provided. This will override all the above as it pertains to the end destination. This must be the path from the baseURL (starting with a `/`). `url` will be used exactly as it is defined in the front matter, and will ignore the `--uglyURLs` setting in your site configuration:
-docs/content/en/content-management/urls.md:193:on your UglyURLs setting. You need to provide absolute paths to your web root
-docs/content/en/content-management/urls.md:210:## Ugly URLs
-docs/content/en/content-management/urls.md:212:If you would like to have what are often referred to as "ugly URLs" (e.g., example.com/urls.html), set `uglyurls = true` or `uglyurls: true` in your site's `config.toml` or `config.yaml`, respectively. You can also set the `HUGO_UGLYURLS` environment variable to `true` when running `hugo` or `hugo server`.
-docs/content/en/content-management/urls.md:233:Here's the same organization run with `hugo --uglyURLs`:
-docs/content/en/variables/page.md:250:This template would render as follows, assuming you've set [`uglyURLs`](/content-management/urls/) to `false` in your [site `config`](/getting-started/configuration/):
-

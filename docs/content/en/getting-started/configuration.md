@@ -318,6 +318,14 @@ Don't sync permission mode of files.
 ### noTimes
 Don't sync modification time of files.
 
+### omitHTMLExtensionFromURLs
+When enabled, removes the `.html` extension from the permalinks of pages and resources.
+
+The generated static files will still include the `.html` extension in their filenames.
+It is up to the user to configure the webserver to serve `filename.html` when the url `/filename` is requested.
+
+This option can be combined with [uglyURLs](#uglyurls) to create URL of the form `/filename` instead of `/filename/`.
+
 ### outputFormats
 See [Configure Output Formats](#configure-additional-output-formats).
 
