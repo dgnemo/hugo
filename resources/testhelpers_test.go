@@ -29,6 +29,7 @@ type specDescriptor struct {
 	baseURL string
 	c       *qt.C
 	fs      afero.Fs
+	cfg     config.Provider
 }
 
 func createTestCfg() config.Provider {
@@ -67,7 +68,10 @@ func newTestResourceSpec(desc specDescriptor) *Spec {
 
 	c := desc.c
 
-	cfg := createTestCfg()
+	cfg := desc.cfg
+	if cfg == nil {
+		cfg = createTestCfg()
+	}
 	cfg.Set("baseURL", baseURL)
 
 	imagingCfg := map[string]interface{}{

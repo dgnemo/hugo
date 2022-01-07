@@ -40,6 +40,23 @@ func TestGenericResource(t *testing.T) {
 	c.Assert(r.ResourceType(), qt.Equals, "text")
 }
 
+func TestHTMLResource(t *testing.T) {
+	c := qt.New(t)
+	cfg := createTestCfg()
+
+	cfg.Set("omitHTMLExtensionFromURLs", true)
+	spec := newTestResourceSpec(specDescriptor{c: c, cfg: cfg})
+	r := spec.newGenericResource(nil, nil, nil, "/a/foo.html", "foo.html", media.HTMLType)
+	c.Assert(r.Permalink(), qt.Equals, "https://example.com/foo")
+	c.Assert(r.RelPermalink(), qt.Equals, "/foo")
+
+	cfg.Set("omitHTMLExtensionFromURLs", false)
+	spec = newTestResourceSpec(specDescriptor{c: c, cfg: cfg})
+	r = spec.newGenericResource(nil, nil, nil, "/a/foo.html", "foo.html", media.HTMLType)
+	c.Assert(r.Permalink(), qt.Equals, "https://example.com/foo.html")
+	c.Assert(r.RelPermalink(), qt.Equals, "/foo.html")
+}
+
 func TestGenericResourceWithLinkFactory(t *testing.T) {
 	c := qt.New(t)
 	spec := newTestResourceSpec(specDescriptor{c: c})

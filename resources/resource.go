@@ -20,6 +20,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"strings"
 	"sync"
 
 	"github.com/gohugoio/hugo/resources/internal"
@@ -509,6 +510,9 @@ func (l *genericResource) relTargetPathForRelAndBasePath(rel, basePath string, i
 		bp := l.spec.PathSpec.GetBasePath(!isAbs)
 		if bp != "" {
 			rel = path.Join(bp, rel)
+		}
+		if l.spec.PathSpec.OmitHTMLExtensionFromURLs {
+			rel = strings.TrimSuffix(rel, ".html")
 		}
 	}
 
