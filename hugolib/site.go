@@ -24,12 +24,15 @@ import (
 	"path"
 	"path/filepath"
 	"regexp"
+	"runtime"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/gohugoio/hugo/common/types"
+	"github.com/gohugoio/hugo/modules"
+	"golang.org/x/text/unicode/norm"
 
 	"github.com/gohugoio/hugo/common/paths"
 
@@ -951,6 +954,10 @@ func (s *Site) filterFileEvents(events []fsnotify.Event) []fsnotify.Event {
 			continue
 		}
 
+		if runtime.GOOS == "darwin" { // When a file system is HFS+, its filepath is in NFD form.
+			ev.Name = norm.NFC.String(ev.Name)
+		}
+
 		filtered = append(filtered, ev)
 	}
 
@@ -1328,6 +1335,32 @@ func (s *Site) initializeSiteInfo() error {
 		}
 	}
 
+	// Assemble dependencies to be used in hugo.Deps.
+	// TODO(bep) another reminder: We need to clean up this Site vs HugoSites construct.
+	var deps []*hugo.Dependency
+	var depFromMod func(m modules.Module) *hugo.Dependency
+	depFromMod = func(m modules.Module) *hugo.Dependency {
+		dep := &hugo.Dependency{
+			Path:    m.Path(),
+			Version: m.Version(),
+			Time:    m.Time(),
+			Vendor:  m.Vendor(),
+		}
+
+		// These are pointers, but this all came from JSON so there's no recursive navigation,
+		// so just create new values.
+		if m.Replace() != nil {
+			dep.Replace = depFromMod(m.Replace())
+		}
+		if m.Owner() != nil {
+			dep.Owner = depFromMod(m.Owner())
+		}
+		return dep
+	}
+	for _, m := range s.Paths.AllModules {
+		deps = append(deps, depFromMod(m))
+	}
+
 	s.Info = &SiteInfo{
 		title:                          lang.GetString("title"),
 		Author:                         lang.GetStringMap("author"),
@@ -1347,7 +1380,7 @@ func (s *Site) initializeSiteInfo() error {
 		permalinks:                     permalinks,
 		owner:                          s.h,
 		s:                              s,
-		hugoInfo:                       hugo.NewInfo(s.Cfg.GetString("environment")),
+		hugoInfo:                       hugo.NewInfo(s.Cfg.GetString("environment"), deps),
 	}
 
 	rssOutputFormat, found := s.outputFormats[page.KindHome].GetByName(output.RSSFormat.Name)
