@@ -16,7 +16,6 @@ package paths
 import (
 	"errors"
 	"fmt"
-	"os"
 	"path"
 	"path/filepath"
 	"regexp"
@@ -36,8 +35,7 @@ type filepathPathBridge interface {
 	Separator() string
 }
 
-type filepathBridge struct {
-}
+type filepathBridge struct{}
 
 func (filepathBridge) Base(in string) string {
 	return filepath.Base(in)
@@ -64,11 +62,6 @@ func (filepathBridge) Separator() string {
 }
 
 var fpb filepathBridge
-
-// ToSlashTrimLeading is just a filepath.ToSlash with an added / prefix trimmer.
-func ToSlashTrimLeading(s string) string {
-	return strings.TrimPrefix(filepath.ToSlash(s), "/")
-}
 
 // MakeTitle converts the path given to a suitable title, trimming whitespace
 // and replacing hyphens with whitespace.
@@ -260,36 +253,4 @@ func (n NamedSlice) String() string {
 		return n.Name
 	}
 	return fmt.Sprintf("%s%s{%s}", n.Name, FilePathSeparator, strings.Join(n.Slice, ","))
-}
-
-// FindCWD returns the current working directory from where the Hugo
-// executable is run.
-func FindCWD() (string, error) {
-	serverFile, err := filepath.Abs(os.Args[0])
-	if err != nil {
-		return "", fmt.Errorf("can't get absolute path for executable: %v", err)
-	}
-
-	path := filepath.Dir(serverFile)
-	realFile, err := filepath.EvalSymlinks(serverFile)
-	if err != nil {
-		if _, err = os.Stat(serverFile + ".exe"); err == nil {
-			realFile = filepath.Clean(serverFile + ".exe")
-		}
-	}
-
-	if err == nil && realFile != serverFile {
-		path = filepath.Dir(realFile)
-	}
-
-	return path, nil
-}
-
-// AddTrailingSlash adds a trailing Unix styled slash (/) if not already
-// there.
-func AddTrailingSlash(path string) string {
-	if !strings.HasSuffix(path, "/") {
-		path += "/"
-	}
-	return path
 }

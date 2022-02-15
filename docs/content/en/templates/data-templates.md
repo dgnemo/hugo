@@ -53,8 +53,8 @@ The example below is a bit contrived, but it illustrates the flexibility of data
 
 {{< code-toggle file="jacopastorius" >}}
 discography = [
-"1974 – Modern American Music … Period! The Criteria Sessions",
-"1974 – Jaco",
+"1974 - Modern American Music … Period! The Criteria Sessions",
+"1974 - Jaco",
 "1976 - Jaco Pastorius",
 "1981 - Word of Mouth",
 "1981 - The Birthday Concert (released in 1995)",
@@ -207,7 +207,7 @@ Currently, you can only use those authentication methods that can be put into an
 
 To load local files with `getJSON` and `getCSV`, the source files must reside within Hugo's working directory. The file extension does not matter, but the content does.
 
-It applies the same output logic as above in [Call the Functions with a URL](#call-the-functions-with-a-url).
+It applies the same output logic as above in [Get Remote Data](#get-remote-data).
 
 {{% note %}}
 The local CSV files to be loaded using `getCSV` must be located **outside** of the `data` directory.
